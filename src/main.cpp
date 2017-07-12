@@ -20,16 +20,32 @@
 #include <WiFiUdp.h>
 #include <Arduino.h>
 #include <OSCMessage.h>
+#include <SPI.h>
+#include <Wire.h>
+#include <SparkFun_ADXL345.h>
 
 WiFiUDP Udp;
+ADXL345 adxl = ADXL345();
 
 const char* ssid = "***";
-const char* password = "*********";
-const unsigned int localPort = 8888;
-
+const char* password = "********";
 const IPAddress dstIp(10,1,1,3);
 const unsigned int dstPort = 8000;
 
+const unsigned int localPort = 8888;
+
+// sendOSCData broadcasts position information over OSC to tne dst address.
+void sendOSCData(float value, const char *tag) {
+  OSCMessage msg(tag);
+  msg.add(value);
+
+  Udp.beginPacket(dstIp, dstPort);
+  msg.send(Udp);
+  Udp.endPacket();
+  msg.empty();
+}
+
+// setup configures the underlying hardware for use in the main loop.
 void setup() {
   Serial.begin(9600);
 
@@ -51,25 +67,19 @@ void setup() {
 
   Serial.println("");
   Serial.println("WiFi Connected!");
+
+  adxl.powerOn();
+  adxl.setRangeSetting(2);
 }
 
-// sendOSCData broadcasts position information over OSC to tne dst address.
-void sendOSCData(float value, char *tag) {
-  OSCMessage msg(tag);
-  msg.add(value);
-
-  Udp.beginPacket(dstIp, dstPort);
-  msg.send(Udp);
-  Udp.endPacket();
-  msg.empty();
-}
-
-float v = 0.0;
-
+// loop executes over and over on the microcontroller. Read from sensors and broadcast via OSC.
 void loop() {
-  delay(1000);
+  delay(250);
 
-  v = v + 0.01;
+  int x,y,z;
+  adxl.readAccel(&x, &y, &z);
 
-  sendOSCData(v, "dds-x");
+  sendOSCData((x / 512.0), "dds-x");
+  sendOSCData((y / 512.0), "dds-y");
+  sendOSCData((z / 512.0), "dds-z");
 }
