@@ -18,7 +18,7 @@ computer.
 
 ## Hardware:
 
-1 x ADXL345
+1 x ADXL345 accelerometer
 1 x LiPo 3.7v 1200mAh
 1 x ESP8266 NodeMCU
 2 x 4.7kΩ Resistors.
@@ -31,6 +31,7 @@ Hardware draws about 70mA when connected to WiFi.
 ## TODO:
 
 * Add more details on hardware.
+* Include circuit diagram for hardware.
 
 
 

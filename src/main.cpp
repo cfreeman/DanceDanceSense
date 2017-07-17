@@ -31,6 +31,7 @@ const char* ssid = "***";           // EditThis: The name of your WiFi access po
 const char* password = "********";  // EditThis: The password of your WiFi access point.
 const IPAddress dstIp(10,1,1,3);    // EditThis: The IP address of the machine to recieve OSC messages.
 const unsigned int dstPort = 8000;  // EditThis: The port listening for OSC messages.
+const unsigned int sensorId = 1;    // EditThis: The ID of the sensor (useful for multple sensors).
 
 // The local listening port for UDP packets.
 const unsigned int localPort = 8888;
@@ -77,10 +78,16 @@ void setup() {
 void loop() {
   int x,y,z;
   adxl.readAccel(&x, &y, &z);
+  char tag[8];
 
-  sendOSCData((x / 512.0), "dds-x");
-  sendOSCData((y / 512.0), "dds-y");
-  sendOSCData((z / 512.0), "dds-z");
+  sprintf(tag, "dds-x-%u", sensorId);
+  sendOSCData((x / 512.0), tag);
+
+  sprintf(tag, "dds-y-%u", sensorId);
+  sendOSCData((y / 512.0), tag);
+
+  sprintf(tag, "dds-z-%u", sensorId);
+  sendOSCData((z / 512.0), tag);
 
   delay(250); // Sample and broadcast OSC messages four times a second.
 }
