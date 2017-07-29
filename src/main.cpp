@@ -78,15 +78,16 @@ void setup() {
 void loop() {
   int x,y,z;
   adxl.readAccel(&x, &y, &z);
-  char tag[8];
 
-  sprintf(tag, "dds-x-%u", sensorId);
+  char tag[16];
+
+  sprintf(tag, "/dds-x-%u", sensorId);
   sendOSCData((x / 512.0), tag);
 
-  sprintf(tag, "dds-y-%u", sensorId);
+  sprintf(tag, "/dds-y-%u", sensorId);
   sendOSCData((y / 512.0), tag);
 
-  sprintf(tag, "dds-z-%u", sensorId);
+  sprintf(tag, "/dds-z-%u", sensorId);
   sendOSCData((z / 512.0), tag);
 
   delay(250); // Sample and broadcast OSC messages four times a second.
