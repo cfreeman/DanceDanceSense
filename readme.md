@@ -5,34 +5,19 @@ similar). It sends normalised accelerometer readings via OSC messages to a host
 computer.
 
 
-
 ## Compiling:
 
 1. Install [PlatformIO for Atom](http://platformio.org/).
-2. Open the DanceDanceSense project.
-3. Edit the configuration at the top of src/main.cpp
-4. Build the project.
-5. Upload
-
+2. Download or git clone DanceDance source code.
+3. Open the DanceDanceSense project.
+4. Edit the configuration at the top of src/main.cpp
+5. Build the project.
+6. Upload
 
 
 ## Hardware:
 
-1 x ADXL345 accelerometer
-1 x LiPo 3.7v 1200mAh
-1 x ESP8266 NodeMCU
-2 x 4.7kΩ Resistors.
-1 x Protoboard
-
-Hardware draws about 70mA when connected to WiFi.
-
-
-
-## TODO:
-
-* Add more details on hardware.
-* Include circuit diagram for hardware.
-
+[Instructions for assembling the associated hardware.](https://reprage.com/post/DanceDanceSense)
 
 
 ## License
